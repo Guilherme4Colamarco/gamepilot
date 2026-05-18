@@ -1,188 +1,154 @@
 # GamePiLot
 
-**Gerenciador de mods para jogos Windows no Linux** — conversão total para Python.
+**Gerenciador de mods para jogos Windows no Linux**, reescrito em **Python + Textual**.
 
-Aplicação TUI (Text User Interface) que detecta jogos Steam/Heroic, instala dependências via winetricks, baixa ferramentas de modding do Nexus Mods e permite lançar as ferramentas diretamente. Tudo em um só lugar, com atalhos de desktop.
+O GamePiLot detecta jogos instalados no Linux, ajuda a instalar dependências com *winetricks*, baixa ferramentas de modding via Nexus Mods e cria atalhos `.desktop` para abrir tudo com menos atrito.
 
----
+## O que ele faz
 
-## Estado atual
+- escaneia instalações de jogos em Steam e Heroic
+- instala dependências do prefixo Wine
+- integra com Nexus Mods para baixar ferramentas de modding
+- cria atalhos no menu e na área de trabalho
+- oferece interface TUI com Textual
+- suporta i18n: **EN / PT / ES / IT / RU**
+- empacota em binário standalone com PyInstaller
 
-✅ Protótipo funcional completo — todos módulos implementados e sintaxe validada  
-✅ UI TUI com 4 botões: Scan, Install Dependencies, Launch Tool, Create Shortcut  
-✅ Atalhos .desktop automáticos (menu + desktop)  
-✅ Suporte a `--game "Nome"` para abrir direto no jogo  
-✅ Internacionalização (EN/PT/ES/IT/RU)  
-✅ Empacotamento com PyInstaller (binário ~30MB)  
+## Requisitos
 
----
+### Sistema
 
-## Plug & Play — Primeira vez
+- Python 3.11+
+- `wine`
+- `winetricks`
 
-### 1. Dependências do sistema (Wine)
+Para instalar os pacotes do sistema:
 
 ```bash
-# No Linux Mint/Ubuntu/Debian/Arch:
-./scripts/install-deps.sh
+make install
+# ou
+bash scripts/install-deps.sh
 ```
 
-Isso instala `wine` e `winetricks`. Se já tiver, pula.
+### Python
 
-### 2. Dependências Python + atalho
+O setup cria o ambiente virtual e instala as dependências do projeto.
+
+## Instalação rápida
 
 ```bash
-# primeira vez apenas:
 make setup
 ```
 
-Isso:
-- Cria virtualenv em `.venv/`
-- Instala `textual`, `pydantic`, `aiohttp`, etc.
-- Gera um atalho no menu e na área de trabalho
+Isso faz:
 
-### 3. Executar
+- cria `.venv/`
+- instala dependências Python
+- cria um wrapper global em `~/.local/bin/gamepilot`
+- gera o atalho inicial do aplicativo
+
+## Como executar
+
+Depois do setup, você pode usar qualquer uma destas formas:
 
 ```bash
-# Modo desenvolvimento
+gamepilot
+# ou
+make run
+# ou
 source .venv/bin/activate
 python -m gamepilot
-
-# Ou binário empacotado (após make build)
-./dist/gamepilot
+# ou
+python run.py
 ```
 
----
+## Fluxo de uso
 
-## Uso — Fluxo rápido
+1. abra o GamePiLot
+2. pressione **Scan** para encontrar jogos instalados
+3. selecione o jogo na tabela
+4. escolha a ferramenta/mod manager
+5. use **Install** para preparar dependências
+6. use **Launch** para abrir a ferramenta no prefixo correto
+7. use **Shortcut** para criar um atalho pronto para uso
 
-1. **Scan** — pressione `Scan Games` para detectar jogos instalados (Steam/Heroic)
-2. **Selecione** — clique no jogo na tabela
-3. **Ferramenta** — escolha a modding tool no dropdown
-4. **Install Dependencies** — baixa dependências winetricks + ferramenta Nexus (ou abre browser)
-5. **Launch Tool** — executa a ferramenta dentro do Wine prefix
-6. **Create Shortcut** — cria ícone na área de trabalho para abrir o GamePiLot já com esse jogo selecionado
+## Configuração
 
----
+### Manifestos
 
-## CLI
+Os manifestos de jogos ficam em:
 
-```
-gamepilot --game "Skyrim"   # Abre direto no jogo
-gamepilot                   # UI normal
-```
+- sistema: `manifests/`
+- usuário: `~/.config/gamepilot/manifests/`
 
----
+O formato é TOML e suporta ferramentas por lista ou por mapa.
 
-## Estrutura do projeto
-
-```
-gamepilot-py/
-├── gamepilot/               # pacote principal
-│   ├── __init__.py
-│   ├── __main__.py          # python -m gamepilot
-│   ├── models.py            # Pydantic: GameManifest, ModTool, ScannerResult
-│   ├── config.py            # platformdirs, config.toml
-│   ├── i18n.py              # dicionários EN/PT/ES/IT/RU
-│   ├── wine.py              # async winetricks wrapper + error extraction
-│   ├── nexus.py             # aiohttp client (Nexus Mods API)
-│   ├── scanner.py           # detecção Steam/Heroic
-│   ├── manifests.py         # TOML loader + deduplicação (suporta [[tools]] e [tools.slug])
-│   ├── ui/
-│   │   ├── app.py           # Textual TUI (botões, log, tables)
-│   │   └── __init__.py
-│   └── utils/
-│       └── shortcuts.py     # .desktop creation + wine command builder
-├── manifests/               # manifestos de jogos (system)
-│   ├── skyrim.toml
-│   ├── witcher3.toml
-│   └── gtav.toml
-├── scripts/                 # scripts de build/deploy/utilidades
-│   ├── install-deps.sh      # instalador Wine/Winetricks
-│   ├── build.sh             # PyInstaller onefile builder
-│   ├── quickstart.sh        # setup rápido
-│   ├── healthcheck.py       # verificação de saúde
-│   └── verify_structure.py  # verificador de estrutura
-├── examples/                # exemplos e demos
-│   └── demo.py
-├── tests/                   # pytest unitários
-├── assets/
-│   ├── icon.svg
-│   └── README.txt
-├── setup.py                 # instala Python deps + primeiro atalho
-├── Makefile                 # atalhos: make setup/run/build/test
-├── requirements.txt
-├── requirements-dev.txt
-├── pyproject.toml
-└── README.md
-```
-
----
-
-## Manifestos
-
-Formato TOML (suporta lista de ferramentas `[[tools]]` ou dicionário `[tools.slug]`):
+Exemplo:
 
 ```toml
 name = "The Elder Scrolls V: Skyrim"
 
 [identifiers]
-# Steam AppID (preferido) ou substring match
 steam_app_id = 72850
 
 [[tools]]
 name = "Mod Organizer 2"
 description = "Mod manager para Skyrim"
 winetricks = ["vcrun2019", "dotnet48"]
-download_url = "https://github.com/.../MO2.exe"
+download_url = "https://example.com/mo2.exe"
 executable_path = "drive_c/ModOrganizer/ModOrganizer.exe"
 ```
 
-O parser converte automaticamente `[[tools]]` para dicionário internamente.
+### Build e empacotamento
 
-- Pasta do usuário: `~/.config/gamepilot/manifests/` (sobrescreve system)
-- `steam_app_id` tem prioridade sobre nome
+```bash
+make build
+```
 
----
+Isso gera o binário em `dist/gamepilot`.
 
 ## Testes
 
 ```bash
-pytest tests/ -v
+make test
+# ou
+python -m pytest tests/ -v
 ```
 
-Cobertura: `extract_real_error`, `shortcuts`, `i18n`, `scanner` match.
+## Estrutura principal
 
----
-
-## Empacotamento
-
-```bash
-make build    # gera dist/gamepilot (~30MB, standalone)
+```text
+gamepilot/
+├── __main__.py
+├── ui/
+├── scanner.py
+├── wine.py
+├── nexus.py
+├── manifests.py
+├── models.py
+└── utils/
 ```
 
-O binário busca manifestos em `../manifests` relativo à sua localização.
+## Desenvolvimento
+
+- `make setup` — instala tudo para começar
+- `make install` — instala dependências do sistema
+- `make run` — roda a TUI
+- `make test` — executa os testes
+- `make build` — empacota com PyInstaller
+- `make clean` — remove artefatos gerados
+
+## Status do projeto
+
+- rewrite total para Python concluído
+- TUI funcional com Textual
+- suíte de testes passando
+- pronto para evolução incremental
+
+## Licença
+
+MIT
 
 ---
 
-## Troubleshooting
-
-| Problema | Solução |
-|----------|---------|
-| `wine: command not found` | rode `./install-deps.sh` |
-| `shortcut não aparece no menu` | execute `update-desktop-database ~/.local/share/applications/` |
-| App inicia mas não detecta jogos | Verifique Steam em `~/.steam/steam/steamapps/common` |
-| Falha download Nexus | Chave API necessária: configure em `~/.config/gamepilot/config.toml` |
-
----
-
-## Migração do Rust original
-
-- Código Rust mantido em `/home/geko/Projetos/gamePiLot/` (referência)
-- Port total ~800 linhas Python vs ~2000 Rust
-- Sem `std::thread::spawn` — `asyncio` nativo
-- Sem `gtk-rs` — `textual` TUI
-- `Pydantic` substitui structs + `serde`
-
----
-
-**Feito por Guilherme — 2026** — Convertido de Rust/GTK3 para Python/Textual, simplificando radicalmente a manutenção e empacotamento.
+Feito por **Guilherme**.
