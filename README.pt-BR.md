@@ -6,9 +6,9 @@
 ╚══════════════════════════════════════╝
 ```
 
-> ⚠️ **Vibe coding disclaimer**
+> ⚠️ **Disclaimer de vibe coding**
 >
-> Este projeto nasceu em ciclos rápidos de iteração. Isso significa que a documentação pode ficar ligeiramente atrás do código, e o código pode mudar rápido quando a ideia melhorar.
+> Este projeto foi feito em ciclos rápidos de iteração. A documentação pode ficar um pouco atrás do código, e o código pode mudar rápido quando a ideia melhora.
 >
 > Se quiser o comportamento exato, leia os arquivos fonte.
 
@@ -58,7 +58,7 @@ python run.py
 
 ## Idiomas suportados
 
-O app traduz a interface conforme `LANG`:
+A interface segue o valor de `LANG`:
 
 - `pt*` → Português
 - `en*` → English
