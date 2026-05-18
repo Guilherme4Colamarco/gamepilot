@@ -1,0 +1,28 @@
+name = "HITMAN World of Assassination"
+
+[identifiers]
+steam_app_id = 1659040
+
+# Simple Mod Framework — framework principal de modding pro HITMAN 3 / WoA.
+# Bundle Electron — extrair e executar Mod Manager.exe.
+[[tools]]
+name = "Simple Mod Framework"
+description = "Framework de modding para HITMAN 3/WoA — sintetiza mods a partir de fontes editáveis"
+winetricks = ["vcrun2019"]
+download_url = "https://github.com/atampy25/simple-mod-framework/releases/latest"
+# Asset principal do release é Output.zip (build standalone).
+asset_pattern = "(?i)release\\.zip$"
+install_type = "extract"
+extract_to = "drive_c/Modding/SimpleModFramework"
+executable_path = "drive_c/Modding/SimpleModFramework/Mod Manager.exe"
+
+# Peacock — servidor LAN open-source que substitui o backend oficial do HITMAN.
+# Distribuído como ZIP com script Start Server.cmd.
+[[tools]]
+name = "Peacock"
+description = "Servidor offline open-source que destrava features online do HITMAN WoA"
+winetricks = []
+download_url = "https://github.com/thepeacockproject/Peacock/releases/latest"
+install_type = "extract"
+extract_to = "drive_c/Modding/Peacock"
+executable_path = "drive_c/Modding/Peacock/Start Server.cmd"

@@ -1,0 +1,28 @@
+name = "Resident Evil 4"
+
+[identifiers]
+steam_app_id = 2050650
+
+# REFramework — framework universal para jogos RE Engine (RE2/3/4 Remake, RE7/8, MHRise, DMC5).
+# Distribuído como ZIP contendo dinput8.dll; precisa ser extraído na pasta do jogo.
+[[tools]]
+name = "REFramework"
+description = "Mod framework + Lua scripting para RE Engine — base de quase todos os mods de RE4 Remake"
+winetricks = ["vcrun2019"]
+download_url = "https://github.com/praydog/REFramework/releases/latest"
+# REFramework publica um ZIP por jogo no mesmo release (DD2.zip, RE4.zip, ...).
+asset_pattern = "^RE4\\.zip$"
+install_type = "extract"
+extract_to = "drive_c/Program Files (x86)/Steam/steamapps/common/RESIDENT EVIL 4  BIOHAZARD RE4"
+executable_path = "drive_c/Program Files (x86)/Steam/steamapps/common/RESIDENT EVIL 4  BIOHAZARD RE4/re4.exe"
+
+# Fluffy Mod Manager — gerenciador gráfico que organiza mods de RE Engine + outros jogos Capcom.
+# Distribuído como .rar — extrair e executar Modmanager.exe manualmente.
+[[tools]]
+name = "Fluffy Mod Manager"
+description = "Gerenciador de mods com UI gráfica para RE Engine, DMC5, MHRise — instala/ativa mods do Nexus"
+winetricks = ["vcrun2019", "dotnet48"]
+download_url = "https://www.fluffyquack.com/tools/modmanager.rar"
+install_type = "extract"
+extract_to = "drive_c/Modding/FluffyModManager"
+executable_path = "drive_c/Modding/FluffyModManager/Modmanager.exe"

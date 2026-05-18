@@ -1,343 +1,188 @@
-<div align="center">
+# GamePiLot
 
-# 🎮 GamePiLot
+**Gerenciador de mods para jogos Windows no Linux** — conversão total para Python.
 
-**A Linux mod manager for Windows games running through Wine/Proton**
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Built with Rust](https://img.shields.io/badge/Built%20with-Rust-orange.svg)](https://www.rust-lang.org/)
-[![GTK4](https://img.shields.io/badge/UI-GTK4-green.svg)](https://gtk.org/)
+Aplicação TUI (Text User Interface) que detecta jogos Steam/Heroic, instala dependências via winetricks, baixa ferramentas de modding do Nexus Mods e permite lançar as ferramentas diretamente. Tudo em um só lugar, com atalhos de desktop.
 
 ---
 
-🌐 **Language / Idioma / Lingua:**
-[🇧🇷 Português](#-português-brasil) · [🇺🇸 English](#-english) · [🇪🇸 Español](#-español) · [🇮🇹 Italiano](#-italiano) · [🇷🇺 Русский](#-русский)
+## Estado atual
 
-
-
-</div>
+✅ Protótipo funcional completo — todos módulos implementados e sintaxe validada  
+✅ UI TUI com 4 botões: Scan, Install Dependencies, Launch Tool, Create Shortcut  
+✅ Atalhos .desktop automáticos (menu + desktop)  
+✅ Suporte a `--game "Nome"` para abrir direto no jogo  
+✅ Internacionalização (EN/PT/ES/IT/RU)  
+✅ Empacotamento com PyInstaller (binário ~30MB)  
 
 ---
 
-## 🇧🇷 Português (Brasil)
+## Plug & Play — Primeira vez
 
-> [!WARNING]
-> ⚠️ **AVISO: Projeto Experimental — Vibe Coding**
->
-> Este projeto está sendo desenvolvido com **vibe coding** em **Rust e GTK** por alguém que **não tem experiência precisa** nessas tecnologias.
-> O código pode conter más práticas, padrões não idiomáticos e soluções improvisadas.
-> **Use por sua conta e risco.** Contribuições e correções são muito bem-vindas!
-
-### O que é o GamePiLot?
-
-O **GamePiLot** é um gerenciador de mods para Linux, projetado para facilitar a instalação e execução de ferramentas de modding de jogos Windows que rodam via **Wine** ou **Proton**. Ele detecta automaticamente seus jogos instalados e configura as dependências necessárias no prefixo Wine correto.
-
-### ✨ Funcionalidades
-
-- 🔍 **Detecção automática de jogos** — Escaneia Steam, Heroic (GOG, Epic, Amazon) e outros launchers
-- 📦 **Instalação de dependências** — Instala winetricks, VCRedist, .NET e outras dependências automaticamente
-- 🛠️ **Ferramentas de modding suportadas:**
-  - SKSE64 (Script Extender para Skyrim)
-  - Vortex Mod Manager / Mod Organizer 2
-  - Simple Mod Framework (Hitman 3)
-  - Cheat Engine / WeMod / Treinadores
-  - ReShade, OpenIV, ScriptHookV
-- 🍷 **Gerenciamento de prefixo Wine** — Detecta e configura prefixos automaticamente
-- 🌍 **Interface multilíngue** — Inglês, Português, Espanhol, Italiano e Russo
-- 🔔 **Alertas de erro inteligentes** — Filtra ruído do Wine e exibe apenas erros reais
-
-### 📦 Dependências
+### 1. Dependências do sistema (Wine)
 
 ```bash
-# Arch Linux / CachyOS
-sudo pacman -S gtk4 wine winetricks
-
-# Ubuntu / Debian
-sudo apt install libgtk-4-dev wine winetricks
+# No Linux Mint/Ubuntu/Debian/Arch:
+./scripts/install-deps.sh
 ```
 
-### 🚀 Como compilar e rodar
+Isso instala `wine` e `winetricks`. Se já tiver, pula.
+
+### 2. Dependências Python + atalho
 
 ```bash
-git clone https://github.com/seu-usuario/gamepilot.git
-cd gamepilot
-cargo run
+# primeira vez apenas:
+make setup
 ```
 
-### 🎮 Jogos suportados
+Isso:
+- Cria virtualenv em `.venv/`
+- Instala `textual`, `pydantic`, `aiohttp`, etc.
+- Gera um atalho no menu e na área de trabalho
 
-| Jogo | Ferramentas |
-|------|------------|
-| The Elder Scrolls V: Skyrim AE | SKSE64, Vortex, MO2 |
-| Grand Theft Auto V | OpenIV, ScriptHookV |
-| Dishonored / Dishonored 2 | Cheat Engine, WeMod, ReShade |
-| HITMAN World of Assassination | Simple Mod Framework |
+### 3. Executar
 
-### 💬 Feedback e Sugestões
-
-Leia o [FEEDBACK.md](FEEDBACK.md) ou use o script automático:
 ```bash
-./scripts/submit_feedback.sh
+# Modo desenvolvimento
+source .venv/bin/activate
+python -m gamepilot
+
+# Ou binário empacotado (após make build)
+./dist/gamepilot
 ```
 
 ---
 
-## 🇺🇸 English
+## Uso — Fluxo rápido
 
-> [!WARNING]
-> ⚠️ **WARNING: Experimental Project — Vibe Coding**
->
-> This project is being developed using **vibe coding** in **Rust and GTK** by someone with **no precise experience** in these technologies.
-> The code may contain bad practices, non-idiomatic patterns, and improvised solutions.
-> **Use at your own risk.** Contributions and fixes are very welcome!
+1. **Scan** — pressione `Scan Games` para detectar jogos instalados (Steam/Heroic)
+2. **Selecione** — clique no jogo na tabela
+3. **Ferramenta** — escolha a modding tool no dropdown
+4. **Install Dependencies** — baixa dependências winetricks + ferramenta Nexus (ou abre browser)
+5. **Launch Tool** — executa a ferramenta dentro do Wine prefix
+6. **Create Shortcut** — cria ícone na área de trabalho para abrir o GamePiLot já com esse jogo selecionado
 
-### What is GamePiLot?
+---
 
-**GamePiLot** is a Linux mod manager designed to simplify the installation and execution of Windows game modding tools running through **Wine** or **Proton**. It automatically detects your installed games and configures the required dependencies in the correct Wine prefix.
+## CLI
 
-### ✨ Features
-
-- 🔍 **Automatic game detection** — Scans Steam, Heroic (GOG, Epic, Amazon) and other launchers
-- 📦 **Dependency installation** — Automatically installs winetricks, VCRedist, .NET, and other dependencies
-- 🛠️ **Supported modding tools:**
-  - SKSE64 (Script Extender for Skyrim)
-  - Vortex Mod Manager / Mod Organizer 2
-  - Simple Mod Framework (Hitman 3)
-  - Cheat Engine / WeMod / Trainers
-  - ReShade, OpenIV, ScriptHookV
-- 🍷 **Wine prefix management** — Automatically detects and configures Wine prefixes
-- 🌍 **Multilingual UI** — English, Portuguese, Spanish, Italian and Russian
-- 🔔 **Smart error alerts** — Filters Wine noise and shows only real errors
-
-### 📦 Dependencies
-
-```bash
-# Arch Linux / CachyOS
-sudo pacman -S gtk4 wine winetricks
-
-# Ubuntu / Debian
-sudo apt install libgtk-4-dev wine winetricks
 ```
-
-### 🚀 Build and run
-
-```bash
-git clone https://github.com/your-user/gamepilot.git
-cd gamepilot
-cargo run
-```
-
-### 🎮 Supported games
-
-| Game | Tools |
-|------|-------|
-| The Elder Scrolls V: Skyrim AE | SKSE64, Vortex, MO2 |
-| Grand Theft Auto V | OpenIV, ScriptHookV |
-| Dishonored / Dishonored 2 | Cheat Engine, WeMod, ReShade |
-| HITMAN World of Assassination | Simple Mod Framework |
-
-### 💬 Feedback & Suggestions
-
-Read [FEEDBACK.md](FEEDBACK.md) or use the automatic script:
-```bash
-./scripts/submit_feedback.sh
+gamepilot --game "Skyrim"   # Abre direto no jogo
+gamepilot                   # UI normal
 ```
 
 ---
 
-## 🇪🇸 Español
+## Estrutura do projeto
 
-> [!WARNING]
-> ⚠️ **ADVERTENCIA: Proyecto Experimental — Vibe Coding**
->
-> Este proyecto está siendo desarrollado con **vibe coding** en **Rust y GTK** por alguien que **no tiene experiencia precisa** en estas tecnologías.
-> El código puede contener malas prácticas, patrones no idiomáticos y soluciones improvisadas.
-> **Úsalo bajo tu propio riesgo.** ¡Las contribuciones y correcciones son muy bienvenidas!
-
-### ¿Qué es GamePiLot?
-
-**GamePiLot** es un gestor de mods para Linux diseñado para simplificar la instalación y ejecución de herramientas de modding de juegos Windows que se ejecutan a través de **Wine** o **Proton**. Detecta automáticamente tus juegos instalados y configura las dependencias necesarias en el prefijo de Wine correcto.
-
-### ✨ Características
-
-- 🔍 **Detección automática de juegos** — Escanea Steam, Heroic (GOG, Epic, Amazon) y otros launchers
-- 📦 **Instalación de dependencias** — Instala winetricks, VCRedist, .NET y otras dependencias automáticamente
-- 🛠️ **Herramientas de modding soportadas:**
-  - SKSE64 (Script Extender para Skyrim)
-  - Vortex Mod Manager / Mod Organizer 2
-  - Simple Mod Framework (Hitman 3)
-  - Cheat Engine / WeMod / Entrenadores
-  - ReShade, OpenIV, ScriptHookV
-- 🍷 **Gestión de prefijos Wine** — Detecta y configura prefijos automáticamente
-- 🌍 **Interfaz multilingüe** — Inglés, Portugués, Español, Italiano y Ruso
-- 🔔 **Alertas de error inteligentes** — Filtra el ruido de Wine y muestra solo errores reales
-
-### 📦 Dependencias
-
-```bash
-# Arch Linux / CachyOS
-sudo pacman -S gtk4 wine winetricks
-
-# Ubuntu / Debian
-sudo apt install libgtk-4-dev wine winetricks
 ```
-
-### 🚀 Compilar y ejecutar
-
-```bash
-git clone https://github.com/tu-usuario/gamepilot.git
-cd gamepilot
-cargo run
-```
-
-### 🎮 Juegos soportados
-
-| Juego | Herramientas |
-|-------|-------------|
-| The Elder Scrolls V: Skyrim AE | SKSE64, Vortex, MO2 |
-| Grand Theft Auto V | OpenIV, ScriptHookV |
-| Dishonored / Dishonored 2 | Cheat Engine, WeMod, ReShade |
-| HITMAN World of Assassination | Simple Mod Framework |
-
-### 💬 Comentarios y Sugerencias
-
-Lea [FEEDBACK.md](FEEDBACK.md) o use el script automático:
-```bash
-./scripts/submit_feedback.sh
+gamepilot-py/
+├── gamepilot/               # pacote principal
+│   ├── __init__.py
+│   ├── __main__.py          # python -m gamepilot
+│   ├── models.py            # Pydantic: GameManifest, ModTool, ScannerResult
+│   ├── config.py            # platformdirs, config.toml
+│   ├── i18n.py              # dicionários EN/PT/ES/IT/RU
+│   ├── wine.py              # async winetricks wrapper + error extraction
+│   ├── nexus.py             # aiohttp client (Nexus Mods API)
+│   ├── scanner.py           # detecção Steam/Heroic
+│   ├── manifests.py         # TOML loader + deduplicação (suporta [[tools]] e [tools.slug])
+│   ├── ui/
+│   │   ├── app.py           # Textual TUI (botões, log, tables)
+│   │   └── __init__.py
+│   └── utils/
+│       └── shortcuts.py     # .desktop creation + wine command builder
+├── manifests/               # manifestos de jogos (system)
+│   ├── skyrim.toml
+│   ├── witcher3.toml
+│   └── gtav.toml
+├── scripts/                 # scripts de build/deploy/utilidades
+│   ├── install-deps.sh      # instalador Wine/Winetricks
+│   ├── build.sh             # PyInstaller onefile builder
+│   ├── quickstart.sh        # setup rápido
+│   ├── healthcheck.py       # verificação de saúde
+│   └── verify_structure.py  # verificador de estrutura
+├── examples/                # exemplos e demos
+│   └── demo.py
+├── tests/                   # pytest unitários
+├── assets/
+│   ├── icon.svg
+│   └── README.txt
+├── setup.py                 # instala Python deps + primeiro atalho
+├── Makefile                 # atalhos: make setup/run/build/test
+├── requirements.txt
+├── requirements-dev.txt
+├── pyproject.toml
+└── README.md
 ```
 
 ---
 
-## 🇮🇹 Italiano
+## Manifestos
 
-> [!WARNING]
-> ⚠️ **ATTENZIONE: Progetto Sperimentale — Vibe Coding**
->
-> Questo progetto è sviluppato con **vibe coding** in **Rust e GTK** da qualcuno che **non ha un'esperienza precisa** in queste tecnologie.
-> Il codice potrebbe contenere cattive pratiche, pattern non idiomatici e soluzioni improvvisate.
-> **Usalo a tuo rischio.** Contributi e correzioni sono benvenuti!
+Formato TOML (suporta lista de ferramentas `[[tools]]` ou dicionário `[tools.slug]`):
 
-### Cos'è GamePiLot?
+```toml
+name = "The Elder Scrolls V: Skyrim"
 
-**GamePiLot** è un gestore di mod per Linux progettato per semplificare l'installazione e l'esecuzione di strumenti di modding per giochi Windows eseguiti tramite **Wine** o **Proton**. Rileva automaticamente i giochi installati e configura le dipendenze necessarie nel prefisso Wine corretto.
+[identifiers]
+# Steam AppID (preferido) ou substring match
+steam_app_id = 72850
 
-### ✨ Funzionalità
-
-- 🔍 **Rilevamento automatico dei giochi** — Scansiona Steam, Heroic (GOG, Epic, Amazon) e altri launcher
-- 📦 **Installazione delle dipendenze** — Installa automaticamente winetricks, VCRedist, .NET e altre dipendenze
-- 🛠️ **Strumenti di modding supportati:**
-  - SKSE64 (Script Extender per Skyrim)
-  - Vortex Mod Manager / Mod Organizer 2
-  - Simple Mod Framework (Hitman 3)
-  - Cheat Engine / WeMod / Trainer
-  - ReShade, OpenIV, ScriptHookV
-- 🍷 **Gestione del prefisso Wine** — Rileva e configura i prefissi Wine automaticamente
-- 🌍 **Interfaccia multilingua** — Inglese, Portoghese, Spagnolo, Italiano e Russo
-- 🔔 **Avvisi di errore intelligenti** — Filtra il rumore di Wine e mostra solo gli errori reali
-
-### 📦 Dipendenze
-
-```bash
-# Arch Linux / CachyOS
-sudo pacman -S gtk4 wine winetricks
-
-# Ubuntu / Debian
-sudo apt install libgtk-4-dev wine winetricks
+[[tools]]
+name = "Mod Organizer 2"
+description = "Mod manager para Skyrim"
+winetricks = ["vcrun2019", "dotnet48"]
+download_url = "https://github.com/.../MO2.exe"
+executable_path = "drive_c/ModOrganizer/ModOrganizer.exe"
 ```
 
-### 🚀 Compilare ed eseguire
+O parser converte automaticamente `[[tools]]` para dicionário internamente.
 
-```bash
-git clone https://github.com/tuo-utente/gamepilot.git
-cd gamepilot
-cargo run
-```
-
-### 🎮 Giochi supportati
-
-| Gioco | Strumenti |
-|-------|-----------|
-| The Elder Scrolls V: Skyrim AE | SKSE64, Vortex, MO2 |
-| Grand Theft Auto V | OpenIV, ScriptHookV |
-| Dishonored / Dishonored 2 | Cheat Engine, WeMod, ReShade |
-| HITMAN World of Assassination | Simple Mod Framework |
-
-### 💬 Feedback e Suggerimenti
-
-Leggi [FEEDBACK.md](FEEDBACK.md) o usa lo script automatico:
-```bash
-./scripts/submit_feedback.sh
-```
+- Pasta do usuário: `~/.config/gamepilot/manifests/` (sobrescreve system)
+- `steam_app_id` tem prioridade sobre nome
 
 ---
 
-## 🇷🇺 Русский
-
-> [!WARNING]
-> ⚠️ **ПРЕДУПРЕЖДЕНИЕ: Экспериментальный проект — Vibe Coding**
->
-> Этот проект разрабатывается с использованием **vibe coding** на **Rust и GTK** кем-то, кто **не имеет точного опыта** в этих технологиях.
-> Код может содержать плохие практики, неидиоматические паттерны и импровизированные решения.
-> **Используйте на свой страх и риск.** Вклады и исправления приветствуются!
-
-### Что такое GamePiLot?
-
-**GamePiLot** — это менеджер модов для Linux, предназначенный для упрощения установки и запуска инструментов для моддинга Windows-игр, работающих через **Wine** или **Proton**. Он автоматически определяет установленные игры и настраивает необходимые зависимости в правильном префиксе Wine.
-
-### ✨ Возможности
-
-- 🔍 **Автоматическое обнаружение игр** — сканирует Steam, Heroic (GOG, Epic, Amazon) и другие лаунчеры
-- 📦 **Установка зависимостей** — автоматически устанавливает winetricks, VCRedist, .NET и другие зависимости
-- 🛠️ **Поддерживаемые инструменты моддинга:**
-  - SKSE64 (Script Extender для Skyrim)
-  - Vortex Mod Manager / Mod Organizer 2
-  - Simple Mod Framework (Hitman 3)
-  - Cheat Engine / WeMod / Трейнеры
-  - ReShade, OpenIV, ScriptHookV
-- 🍷 **Управление префиксами Wine** — автоматическое обнаружение и настройка префиксов Wine
-- 🌍 **Многоязычный интерфейс** — английский, португальский, испанский, итальянский и русский
-- 🔔 **Умные оповещения об ошибках** — фильтрует шум Wine и показывает только реальные ошибки
-
-### 📦 Зависимости
+## Testes
 
 ```bash
-# Arch Linux / CachyOS
-sudo pacman -S gtk4 wine winetricks
-
-# Ubuntu / Debian
-sudo apt install libgtk-4-dev wine winetricks
+pytest tests/ -v
 ```
 
-### 🚀 Сборка и запуск
-
-```bash
-git clone https://github.com/vash-polzovatel/gamepilot.git
-cd gamepilot
-cargo run
-```
-
-### 🎮 Поддерживаемые игры
-
-| Игра | Инструменты |
-|-------|-----------|
-| The Elder Scrolls V: Skyrim AE | SKSE64, Vortex, MO2 |
-| Grand Theft Auto V | OpenIV, ScriptHookV |
-| Dishonored / Dishonored 2 | Cheat Engine, WeMod, ReShade |
-| HITMAN World of Assassination | Simple Mod Framework |
-
-### 💬 Обратная связь и предложения
-
-Прочтите [FEEDBACK.md](FEEDBACK.md) или используйте автоматический скрипт:
-```bash
-./scripts/submit_feedback.sh
-```
+Cobertura: `extract_real_error`, `shortcuts`, `i18n`, `scanner` match.
 
 ---
 
-<div align="center">
+## Empacotamento
 
-**GamePiLot** — Made with ❤️ for the Linux gaming community
+```bash
+make build    # gera dist/gamepilot (~30MB, standalone)
+```
 
-[📋 Changelog](CHANGELOG.md) · [💬 Feedback](FEEDBACK.md) · [🐛 Issues](../../issues)
+O binário busca manifestos em `../manifests` relativo à sua localização.
 
-</div>
+---
+
+## Troubleshooting
+
+| Problema | Solução |
+|----------|---------|
+| `wine: command not found` | rode `./install-deps.sh` |
+| `shortcut não aparece no menu` | execute `update-desktop-database ~/.local/share/applications/` |
+| App inicia mas não detecta jogos | Verifique Steam em `~/.steam/steam/steamapps/common` |
+| Falha download Nexus | Chave API necessária: configure em `~/.config/gamepilot/config.toml` |
+
+---
+
+## Migração do Rust original
+
+- Código Rust mantido em `/home/geko/Projetos/gamePiLot/` (referência)
+- Port total ~800 linhas Python vs ~2000 Rust
+- Sem `std::thread::spawn` — `asyncio` nativo
+- Sem `gtk-rs` — `textual` TUI
+- `Pydantic` substitui structs + `serde`
+
+---
+
+**Feito por Guilherme — 2026** — Convertido de Rust/GTK3 para Python/Textual, simplificando radicalmente a manutenção e empacotamento.

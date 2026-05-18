@@ -1,0 +1,18 @@
+name = "The Elder Scrolls V: Skyrim Special Edition"
+
+[identifiers]
+steam_app_id = 72850
+
+[[tools]]
+name = "SKSE64"
+description = "Skyrim Script Extender 64-bit"
+winetricks = ["vcrun2019"]
+download_url = "https://skse.silverlock.org/download/archive/skse64_2_06_05.7z"
+executable_path = "drive_c/Program Files/Steam/steamapps/common/Skyrim Special Edition/SKSE64_loader.exe"
+
+[[tools]]
+name = "Mod Organizer 2"
+description = "Mod manager for Skyrim"
+winetricks = ["dotnet48", "vcrun2019"]
+download_url = "https://github.com/ModOrganizer2/modorganizer/releases/download/v2.5.2/ModOrganizer-2.5.2-setup.exe"
+executable_path = "drive_c/ModOrganizer2/ModOrganizer.exe"

@@ -1,0 +1,11 @@
+name = "Grand Theft Auto V"
+
+[identifiers]
+steam_app_id = 271590
+
+[[tools]]
+name = "GTAV Mod Manager"
+description = "Mod manager for GTA V"
+winetricks = ["dotnet48", "vcrun2019"]
+download_url = "https://example.com/gtav-mod-manager.exe"  # placeholder
+executable_path = "drive_c/Mods/GTAVMM.exe"

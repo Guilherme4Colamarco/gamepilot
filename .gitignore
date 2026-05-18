@@ -1,2 +1,10 @@
-/target
-.claude/settings.local.json
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+specs/
+graphify-out/

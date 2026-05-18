@@ -1,0 +1,11 @@
+name = "Lossless Scaling"
+
+[identifiers]
+steam_app_id = 993090
+
+[[tools]]
+name = "Lossless Scaling Launcher"
+description = "FPS upscaling and frame generation tool for Windows games"
+winetricks = []
+download_url = "https://store.steampowered.com/app/993090"
+executable_path = "drive_c/Program Files/Steam/steamapps/common/Lossless Scaling/lsr.exe"

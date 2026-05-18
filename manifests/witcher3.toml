@@ -1,0 +1,11 @@
+name = "The Witcher 3: Wild Hunt"
+
+[identifiers]
+steam_app_id = 499450
+
+[[tools]]
+name = "GWitcher Mod Manager"
+description = "Simple mod manager for Witcher 3"
+winetricks = ["vcrun2019"]
+download_url = "https://github.com/Grid breve/gwitcher-mod-manager/releases/download/v1.0/gwitcher-setup.exe"
+executable_path = "drive_c/GWitcher/GWitcher.exe"

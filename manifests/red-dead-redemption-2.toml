@@ -1,0 +1,25 @@
+name = "Red Dead Redemption 2"
+
+[identifiers]
+steam_app_id = 1174180
+
+[[tools]]
+name = "Lenny's Simple Trainer"
+description = "Menu trainer for Red Dead Redemption 2 singleplayer"
+winetricks = ["vcrun2019", "dotnet48"]
+download_url = "https://www.rdr2mods.com/downloads/rdr2/scripts/4-lennys-simple-trainer/download"
+executable_path = "drive_c/Program Files/LennysSimpleTrainer/LST.exe"
+
+[[tools]]
+name = "Script Hook RDR2"
+description = "ASI loader and script hook for Red Dead Redemption 2"
+winetricks = ["vcrun2019"]
+download_url = "https://www.dev-c.com/rdr2/scripthookrdr2"
+executable_path = "drive_c/Program Files/Steam/steamapps/common/Red Dead Redemption 2/ScriptHookRDR2.dll"
+
+[[tools]]
+name = "Rampage Trainer"
+description = "Feature-rich trainer and mod menu for Red Dead Redemption 2"
+winetricks = ["vcrun2019", "dotnet48"]
+download_url = "https://www.nexusmods.com/reddeadredemption2/mods/1074?tab=files&file_id=51910"
+executable_path = "drive_c/Program Files/Rampage/Rampage.exe"
