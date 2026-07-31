@@ -5,7 +5,7 @@ import ast
 import os
 from pathlib import Path
 
-BASE = Path(__file__).parent / "gamepilot"
+BASE = Path(__file__).resolve().parent.parent / "gamepilot"
 STDLIB = {
     "os", "pathlib", "typing", "asyncio", "json", "subprocess",
     "sys", "re", "logging", "enum", "collections", "itertools",
