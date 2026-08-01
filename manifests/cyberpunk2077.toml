@@ -1,0 +1,18 @@
+name = "Cyberpunk 2077"
+
+[identifiers]
+steam_app_id = 1091500
+
+[[tools]]
+name = "Cyber Engine Tweaks"
+description = "Framework de scripting e correções essenciais para Cyberpunk 2077"
+winetricks = ["vcrun2022"]
+download_url = "https://github.com/maximegmd/CyberEngineTweaks/releases/latest"
+executable_path = "bin/x64/plugins/cyber_engine_tweaks.asi"
+
+[[tools]]
+name = "CET Mod Manager"
+description = "Gerenciador de mods simples para Cyber Engine Tweaks"
+winetricks = ["dotnet48", "vcrun2022"]
+download_url = "https://github.com/Nats-ji/CET-Mod-Manager/releases/latest"
+executable_path = "drive_c/CET-Mod-Manager/CET-Mod-Manager.exe"
