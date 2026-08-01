@@ -8,7 +8,7 @@ import asyncio
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from gamepilot import scanner, manifests, wine
 
@@ -30,7 +30,7 @@ async def main():
 
     print("\n3. Wine extract_real_error test")
     stderr = "fixme:heap:...\nwarn:ntdll:...\nerr:module: cannot load foo.dll\n"
-    err = await wine.extract_real_error(stderr)
+    err = wine.extract_real_error(stderr)
     print(f"   Extracted error: {err}")
 
     print("\n4. Scanner test (async)")
