@@ -21,7 +21,7 @@ def check_wine() -> bool:
         print("✅ wine installed")
         return True
     except (FileNotFoundError, subprocess.CalledProcessError):
-        print("❌ wine not found. Run ./install-deps.sh or install wine manually.")
+        print("❌ wine not found. Run scripts/install-deps.sh or install wine manually.")
         return False
 
 
@@ -31,7 +31,7 @@ def check_winetricks() -> bool:
         print("✅ winetricks installed")
         return True
     except (FileNotFoundError, subprocess.CalledProcessError):
-        print("❌ winetricks not found.")
+        print("❌ winetricks not found. Run scripts/install-deps.sh or install it manually.")
         return False
 
 
