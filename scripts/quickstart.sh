@@ -9,7 +9,10 @@ echo "======================"
 echo ""
 
 # 1. Dependências do sistema
-if [ -x "./install-deps.sh" ]; then
+if [ -x "scripts/install-deps.sh" ]; then
+    echo "[1/3] Instalando Wine/Winetricks..."
+    bash scripts/install-deps.sh
+elif [ -x "./install-deps.sh" ]; then
     echo "[1/3] Instalando Wine/Winetricks..."
     bash ./install-deps.sh
 else
@@ -28,7 +31,11 @@ fi
 echo "[3/3] Build opcional com PyInstaller? (s/N)"
 read -r response
 if [[ "$response" =~ ^[Ss]$ ]]; then
-    ./build.sh
+    if [ -x "scripts/build.sh" ]; then
+        bash scripts/build.sh
+    else
+        bash ./build.sh
+    fi
 fi
 
 echo ""
