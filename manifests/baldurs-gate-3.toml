@@ -1,0 +1,18 @@
+name = "Baldur's Gate 3"
+
+[identifiers]
+steam_app_id = 1086940
+
+[[tools]]
+name = "BG3 Script Extender"
+description = "Adiciona suporte a scripts Lua/Osiris e é necessário para muitos mods"
+winetricks = ["vcrun2022"]
+download_url = "https://github.com/Norbyte/bg3se/releases/latest"
+executable_path = "bin/DWrite.dll"
+
+[[tools]]
+name = "BG3 Mod Manager"
+description = "Gerenciador de mods recomendado para Baldur's Gate 3"
+winetricks = ["dotnet8", "vcrun2022"]
+download_url = "https://github.com/LaughingLeader/BG3ModManager/releases/latest"
+executable_path = "BG3ModManager.exe"
