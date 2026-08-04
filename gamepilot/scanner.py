@@ -13,6 +13,7 @@ def find_steam_dir() -> Optional[Path]:
     paths = [
         home / ".steam" / "steam",
         home / ".local" / "share" / "Steam",
+        home / ".var" / "app" / "com.valvesoftware.Steam" / ".local" / "share" / "Steam",
     ]
     for p in paths:
         if p.exists() and p.is_dir():
