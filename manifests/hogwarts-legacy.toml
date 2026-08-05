@@ -1,0 +1,18 @@
+name = "Hogwarts Legacy"
+
+[identifiers]
+steam_app_id = 990080
+
+[[tools]]
+name = "UE4SS"
+description = "Universal Unreal Engine 4/5 Script Extender - Necessário para mods avançados"
+winetricks = ["vcrun2022"]
+download_url = "https://github.com/UE4SS-RE/RE-UE4SS/releases/latest"
+executable_path = "Phoenix/Binaries/Win64/UE4SS.dll"
+
+[[tools]]
+name = "Hogwarts Legacy Mod Merger"
+description = "Ferramenta para mesclar mods que alteram os mesmos arquivos .pak"
+winetricks = ["dotnet6", "vcrun2022"]
+download_url = "https://github.com/Ske-G/Hogwarts-Legacy-Mod-Merger/releases/latest"
+executable_path = "HogwartsLegacyModMerger.exe"
