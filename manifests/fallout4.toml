@@ -1,0 +1,18 @@
+name = "Fallout 4"
+
+[identifiers]
+steam_app_id = 377160
+
+[[tools]]
+name = "F4SE"
+description = "Fallout 4 Script Extender - Necessário para muitos mods avançados"
+winetricks = ["vcrun2012"]
+download_url = "https://f4se.silverlock.org/dl/f4se_0_07_02.7z"
+executable_path = "f4se_loader.exe"
+
+[[tools]]
+name = "Mod Organizer 2"
+description = "Gerenciador de mods recomendado para jogos Bethesda"
+winetricks = ["dotnet48", "vcrun2019"]
+download_url = "https://github.com/ModOrganizer2/modorganizer/releases/latest"
+executable_path = "ModOrganizer.exe"
