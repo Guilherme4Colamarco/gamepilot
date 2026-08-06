@@ -56,6 +56,12 @@ python -m gamepilot
 python run.py
 ```
 
+## Dicas de Uso
+
+- **Steam Deck & Flatpak**: O GamePiLot detecta automaticamente bibliotecas do Steam instaladas via Flatpak ou no caminho padrão do sistema.
+- **Winetricks**: Ao selecionar um jogo, o app verifica se as dependências do manifesto (como `.dotnet` ou `vcrun`) estão instaladas no prefixo Wine do jogo.
+- **Atalhos**: Os atalhos criados em `~/.local/share/applications` permitem que você lance as ferramentas de modding diretamente do seu menu de aplicativos ou do Modo Game no Steam Deck.
+
 ## Idiomas suportados
 
 O app traduz a interface conforme `LANG`:
