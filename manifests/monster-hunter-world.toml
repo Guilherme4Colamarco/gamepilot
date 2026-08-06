@@ -1,0 +1,18 @@
+name = "Monster Hunter: World"
+
+[identifiers]
+steam_app_id = 582010
+
+[[tools]]
+name = "Stracker's Loader"
+description = "Carregador de mods essencial para Monster Hunter: World"
+winetricks = ["vcrun2019"]
+download_url = "https://www.nexusmods.com/monsterhunterworld/mods/1982"
+executable_path = "dtdata.dll"
+
+[[tools]]
+name = "MHW Mod Manager"
+description = "Gerenciador de mods simples para Linux"
+winetricks = ["dotnet48", "vcrun2019"]
+download_url = "https://github.com/Byte-Nova/MHW-Mod-Manager/releases/latest"
+executable_path = "MHW-Mod-Manager.exe"
