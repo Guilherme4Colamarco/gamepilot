@@ -1,0 +1,18 @@
+name = "Sekiro: Shadows Die Twice"
+
+[identifiers]
+steam_app_id = 814380
+
+[[tools]]
+name = "Sekiro Mod Engine"
+description = "Framework essencial para carregar mods em Sekiro"
+winetricks = ["vcrun2022"]
+download_url = "https://github.com/soulsmods/ModEngine2/releases/latest"
+executable_path = "dinput8.dll"
+
+[[tools]]
+name = "Sekiro Mod Manager"
+description = "Gerenciador de mods para organizar perfis e mods do Sekiro"
+winetricks = ["dotnet48", "vcrun2022"]
+download_url = "https://github.com/george0815/Sekiro-Mod-Manager/releases/latest"
+executable_path = "Sekiro Mod Manager.exe"
